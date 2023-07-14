@@ -27,7 +27,14 @@ const post = () => {
 };
 
 const put = () => {
-  console.log("put");
+  const data = {
+    title: "foo",
+    body: "bar",
+    userId: 1,
+  };
+  axios
+    .put("https://jsonplaceholder.typicode.com/posts/1", data)
+    .then((response) => renderOutput(response));
 };
 
 const patch = () => {
