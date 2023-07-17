@@ -3,6 +3,8 @@ const dataEl = document.getElementById("data");
 const headersEl = document.getElementById("headers");
 const configEl = document.getElementById("config");
 
+axios.defaults.baseURL = "https://jsonplaceholder.typicode.com";
+
 // Add a request interceptor
 axios.interceptors.request.use(
   function (config) {
@@ -36,7 +38,7 @@ axios.interceptors.response.use(
 
 const get = () => {
   axios
-    .get("https://jsonplaceholder.typicode.com/posts", {
+    .get("/posts", {
       params: {
         _limit: 5,
       },
@@ -52,9 +54,7 @@ const post = () => {
     body: "bar",
     userId: 1,
   };
-  axios
-    .post("https://jsonplaceholder.typicode.com/posts", data)
-    .then((response) => renderOutput(response));
+  axios.post("/posts", data).then((response) => renderOutput(response));
 };
 
 const put = () => {
@@ -63,30 +63,24 @@ const put = () => {
     body: "bar",
     userId: 1,
   };
-  axios
-    .put("https://jsonplaceholder.typicode.com/posts/1", data)
-    .then((response) => renderOutput(response));
+  axios.put("/posts/1", data).then((response) => renderOutput(response));
 };
 
 const patch = () => {
   const data = {
     title: "foo",
   };
-  axios
-    .patch("https://jsonplaceholder.typicode.com/posts/1", data)
-    .then((response) => renderOutput(response));
+  axios.patch("/posts/1", data).then((response) => renderOutput(response));
 };
 
 const del = () => {
-  axios
-    .delete("https://jsonplaceholder.typicode.com/posts/1")
-    .then((response) => renderOutput(response));
+  axios.delete("/posts/1").then((response) => renderOutput(response));
 };
 
 const multiple = () => {
   Promise.all([
-    axios.get("https://jsonplaceholder.typicode.com/posts?_limit=2"),
-    axios.get("https://jsonplaceholder.typicode.com/users?_limit=2"),
+    axios.get("/posts?_limit=2"),
+    axios.get("/users?_limit=2"),
   ]).then((response) => {
     console.table(response[0].data);
     console.table(response[1].data);
@@ -95,7 +89,7 @@ const multiple = () => {
 
 const transform = () => {
   axios
-    .get("https://jsonplaceholder.typicode.com/posts", {
+    .get("/posts", {
       params: {
         _limit: 3,
       },
@@ -114,7 +108,7 @@ const transform = () => {
 
 const errorHandling = () => {
   axios
-    .get("https://jsonplaceholder.typicode.com/postsz")
+    .get("/postsz")
     .then((response) => renderOutput(response))
     .catch((error) => renderOutput(error.response));
 };
@@ -125,7 +119,7 @@ const cancel = () => {
     signal: controller.signal,
   };
   axios
-    .get("https://jsonplaceholder.typicode.com/posts?_limit=2", config)
+    .get("/posts?_limit=2", config)
     .then((response) => renderOutput(response))
     .catch((e) => console.log(e.message));
   controller.abort();
