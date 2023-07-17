@@ -3,6 +3,14 @@ const dataEl = document.getElementById("data");
 const headersEl = document.getElementById("headers");
 const configEl = document.getElementById("config");
 
+// Set config defaults when creating the instance
+const newAxiosInstance = axios.create({
+  baseURL: "https://api.example.com",
+});
+
+// Alter defaults after instance has been created
+newAxiosInstance.defaults.headers.common["Authorization"] = AUTH_TOKEN;
+
 axios.defaults.baseURL = "https://jsonplaceholder.typicode.com";
 
 // Add a request interceptor
